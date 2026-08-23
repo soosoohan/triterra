@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<script>
+  if (window.top !== window.self) {
+    window.top.location = "https://soosooland.com";
+  }
+  console.log("© 2026 Soosooland by 한수수. All rights reserved.");
+  console.log("https://soosooland.com");
+  console.log("🎮 Triterra | Born: 2026-01-02");
+</script>
+
+<script>
+  if (window.top !== window.self) {
+    window.top.location = "https://soosooland.com";
+  }
+  console.log("© 2025-2026 Soosooland by 한수수. All rights reserved.");
+  console.log("https://soosooland.com");
+  console.log("🎮 Triterra | Born: 2026-01-02");
+</script>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4YZHC1G9FN"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-4YZHC1G9FN');
+</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Triterra friend</title>
+  <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+          touch-action: manipulation;
+        }
+
+body {
+    touch-action: pan-x pan-y;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+}
+
+html {
+    background: #0b0c1a !important;
+}
+
+body,
+.game-container {
+    display: flex;
+    flex-direction: column;
+    background: #145454 ;
+    font-family: 'Pretendard', sans-serif;
+    height: 100dvh;
+    overflow: hidden;
+    min-height: 100dvh;
+    width: 100vw;
+    position: relative;
+}
+
+.header {
+    flex: 0 0 70px;
+    text-align: center;
+    padding: 15px;
+    color: white;
+    position: relative;
+}
+
+.game-title {
+    font-size: clamp(1.3rem, 3.7vw, 1.9rem);
+    font-weight: bold;
+    width: 30%;
+    margin: 0 auto;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.buttons {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    gap: 10px;
+}
+.back-button { position: fixed; top: max(48px, env(safe-area-inset-top) + 20px); left: 22px; width: 44px; height: 44px; padding: 0; font-size: 1.8em; font-weight: bold; 
+    background: rgba(255,255,255,0.9);
+    color: #145454;
+border-radius: 12px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;z-index: 100;}
+
+.game-area {
+    flex: 1;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #145454 ;
+}
+
+.point {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    z-index: 100;
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.point::before {
+    content: '';
+    width: 16px;
+    height: 16px;
+    background: #F7f783;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.point:hover::before {
+    transform: scale(1.2);
+    background: #Fcefa4;
+}
+
+.point.selected::before {
+    background: #FFD700;
+    transform: scale(1.6);
+    box-shadow: 0 0 25px currentColor;
+    
+}
+
+@keyframes twinkle {
+    0%, 100% { 
+        opacity: 1;
+        transform: scale(2.0);
+    }
+    50% { 
+        opacity: 0.7;
+        transform: scale(2.3);
+    }
+}
+
+.line {
+    position: absolute;
+    height: 3px;
+    transform-origin: left center;
+    z-index: 5;
+}
+
+.triangle {
+    position: absolute;
+    font-size: 24px;
+    font-weight: bold;
+    z-index: 40;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.scoreboard {
+    flex: 0 0 100px;
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    background: #145454;
+    padding: 15px;
+    font-family: 'Pretendard', sans-serif;
+    color: #fffde7;
+    z-index: 50;
+    pointer-events: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.player-score {
+    font-size: clamp(16px, 4vw, 25px);
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.player1 { color: white; }
+.player2 { color: pink; }
+
+.turn-indicator {
+    font-size: clamp(16px, 4vw, 25px);
+    animation: pulse 1s infinite;
+}
+
+.current-turn {
+    font-size: clamp(16px, 4vw, 25px);
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background: rgba(255,255,255,0.1);
+    font-family: 'Pretendard', sans-serif;
+    color: #fff;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+  }
+@media (max-width: 768px) and (orientation: portrait) {
+    .game-container {
+        height: 100dvh;
+        padding: env(safe-area-inset-top) env(safe-area-inset-right) 
+                 env(safe-area-inset-bottom) env(safe-area-inset-left);
+    }
+
+    .game-title {
+        font-size: 1.8rem;
+        width: 100%;
+        margin: 10px auto;
+    }
+
+    .buttons {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        justify-content: center;
+        margin-bottom: 0;
+    }
+
+    .scoreboard {
+        bottom: 10px;
+        left: 10px;
+        right: 10px;
+        padding: 10px;
+    }
+
+    .point {
+        width: 40px;
+        height: 40px;
+    }
+
+    .point::before {
+        width: 12px;
+        height: 12px;
+    }
+
+.game-container {
+    height: 100dvh;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) 
+             env(safe-area-inset-bottom) env(safe-area-inset-left);
+}}
+
+@media (max-width: 480px) {   
+.back-button { top: max(30px, env(safe-area-inset-top) + 10px); left: 10px; width: 40px; height: 40px; font-size: 1.5em; }
+}
+    
+
+</style>
+</head>
+<body>
+  <button class="back-button"  onclick="location.href='https://soosooland.com/triterra/index.html'">←</button>
+ <div class="game-container">
+    <div class="header">
+      <h1 class="game-title">트리테라</h1>
+    </div>
+
+    <div class="game-area" id="gameArea"></div>
+    
+    <div class="scoreboard">
+      <div class="player-score player1">
+        <span id="player1Name">P1</span>: <span id="score1">0</span> <span class="turn-indicator" id="turn1">⭐</span>
+      </div>
+      <div class="player-score player2">
+        <span id="player2Name">P2</span>: <span id="score2">0</span> <span class="turn-indicator" id="turn2" style="display:none;">⭐</span>
+      </div>
+      <div class="current-turn" id="currentTurn">P1의 차례</div>
+    </div>
+  </div>
+
+<script>
+    
+    const gameArea = document.getElementById('gameArea');
+    let points = [];
+    let lines = [];
+    let triangles = [];
+    let currentPlayer = 1;
+    let selectedPoint = null;
+    let scores = { player1: 0, player2: 0 };
+    
+    let player1Name = 'P1';
+    let player2Name = 'P2';
+    
+    function loadPlayerNames() {
+        const savedPlayer1 = localStorage.getItem('player1Name');
+        const savedPlayer2 = localStorage.getItem('player2Name');
+        
+        if (savedPlayer1 && savedPlayer2) {
+            player1Name = savedPlayer1;
+            player2Name = savedPlayer2;
+            
+            document.getElementById('player1Name').textContent = player1Name;
+            document.getElementById('player2Name').textContent = player2Name;
+        }
+    }
+
+    function getSemodangGrid() {
+    const areaRect = gameArea.getBoundingClientRect();
+    
+    // 화면 크기에 따라 margin 조정
+    let margin;
+    if (areaRect.width < 600) {
+        margin = 60;   // 모바일
+    } else if (areaRect.width < 1000) {
+        margin = 100;  // 태블릿
+    } else {
+        margin = 150;  // 데스크톱
+    }
+    
+    const usableWidth = areaRect.width - 2 * margin;
+    const usableHeight = areaRect.height - 2 * margin - 120;
+    
+    const minSpacing = 120;
+    
+    const maxColsByWidth = Math.min(6, Math.floor(usableWidth / minSpacing) + 1);
+    const maxRowsByHeight = Math.min(6, Math.floor(usableHeight / minSpacing) + 1);
+    
+    let cols = Math.max(3, maxColsByWidth);
+    let rows = Math.max(3, Math.min(4, maxRowsByHeight));
+    
+    // 3×3 회피
+    if (cols === 3 && rows === 3) {
+        rows = 4;
+    }
+    
+    const spacingX = Math.max(minSpacing, usableWidth / (cols - 1));
+    const spacingY = Math.max(minSpacing, usableHeight / (rows - 1));
+    
+    return { rows, cols, spacingX, spacingY };
+}
+
+    // 정확한 격자로 점 생성
+    function createPoints() {
+        console.log("세모땅 격자 생성");
+        
+        const areaRect = gameArea.getBoundingClientRect();
+        const margin = 80;
+        
+        const gridInfo = getSemodangGrid();
+        const { rows, cols, spacingX, spacingY } = gridInfo;
+        const totalPoints = rows * cols;
+        
+        console.log(`격자: ${rows}×${cols} = ${totalPoints}개, 간격: ${spacingX}×${spacingY}px`);
+        
+        // 사용 가능한 영역
+        const usableWidth = areaRect.width - 2 * margin;
+        const usableHeight = areaRect.height - 2 * margin - 120;
+        
+        // 실제 격자 크기
+        const actualWidth = (cols - 1) * spacingX;
+        const actualHeight = (rows - 1) * spacingY;
+        
+        // 중앙 정렬
+        const startX = margin + (usableWidth - actualWidth) / 2;
+        const startY = margin + (usableHeight - actualHeight) / 2;
+        
+        // 모든 격자점 생성 (흔들림 없음!)
+        let gridPoints = [];
+        for (let row = 0; row < rows; row++) {
+            for (let col = 0; col < cols; col++) {
+                const x = startX + col * spacingX;
+                const y = startY + row * spacingY;
+                
+                gridPoints.push({ x, y, row, col });
+            }
+        }
+        
+        // 점 생성 및 배치 (모두 사용, 삭제 없음)
+        gridPoints.forEach((pointData, i) => {
+            const point = document.createElement('div');
+            point.className = 'point';
+            point.style.left = (pointData.x - 25) + 'px';
+            point.style.top = (pointData.y - 25) + 'px';
+            
+            point.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                selectPoint(i, pointData.x, pointData.y);
+            });
+            
+            point.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                selectPoint(i, pointData.x, pointData.y);
+            });
+            
+            point.addEventListener('touchend', function(e) {
+                e.preventDefault();
+            });
+            
+            gameArea.appendChild(point);
+            points.push({ 
+                x: pointData.x,
+                y: pointData.y,
+                element: point, 
+                id: i,
+                row: pointData.row,
+                col: pointData.col
+            });
+        });
+        
+        console.log(`생성된 점: ${points.length}개`);
+    }
+
+    function selectPoint(pointId, x, y) {
+        if (selectedPoint === null) {
+            selectedPoint = { id: pointId, x, y };
+            points[pointId].element.classList.add('selected');
+        } else if (selectedPoint.id === pointId) {
+            points[pointId].element.classList.remove('selected');
+            selectedPoint = null;
+        } else {
+            drawLine(selectedPoint, { id: pointId, x, y });
+            points[selectedPoint.id].element.classList.remove('selected');
+            selectedPoint = null;
+        }
+    }
+
+    function drawLine(point1, point2) {
+        const existingLine = lines.find(line =>
+            (line.point1 === point1.id && line.point2 === point2.id) ||
+            (line.point1 === point2.id && line.point2 === point1.id)
+        );
+
+        if (existingLine) {
+            return;
+        }
+
+        if (lineIntersectsExistingLines(point1, point2)) {
+            showWarningMessage("Lines cannot cross each other!");
+            return;
+        }
+
+        for (let point of points) {
+            if (linePassesThroughPoint(point1, point2, point)) {
+                showWarningMessage("Lines cannot pass through other points!");
+                return;
+            }
+        }
+
+        const wouldCreateTriangles = checkForAllTriangles(point1.id, point2.id);
+        for (let triangle of wouldCreateTriangles) {
+            if (hasPointInside(triangle)) {
+                showWarningMessage("Cannot create triangle with points inside!");
+                return;
+            }
+        }
+
+        const line = document.createElement('div');
+        line.className = 'line';
+
+        const dx = point2.x - point1.x;
+        const dy = point2.y - point1.y;
+        const length = Math.sqrt(dx * dx + dy * dy);
+        const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+
+        line.style.width = length + 'px';
+        line.style.left = point1.x + 'px';
+        line.style.top = (point1.y - 1.5) + 'px';
+        line.style.transform = `rotate(${angle}deg)`;
+        line.style.background = currentPlayer === 1 ? 'white' : 'pink';
+
+        gameArea.appendChild(line);
+        lines.push({
+            point1: point1.id,
+            point2: point2.id,
+            player: currentPlayer,
+            element: line
+        });
+
+        const newTriangles = checkForAllTriangles(point1.id, point2.id);
+        if (newTriangles.length > 0) {
+            newTriangles.forEach(triangle => createTriangle(triangle));
+            scores[`player${currentPlayer}`] += newTriangles.length;
+            updateScoreboard();
+        } else {
+            currentPlayer = currentPlayer === 1 ? 2 : 1;
+            updateTurnDisplay();
+        }
+
+        checkGameOver();
+    }
+
+    function isPointInsideTriangle(px, py, triangle) {
+        const p0 = points[triangle[0]];
+        const p1 = points[triangle[1]];
+        const p2 = points[triangle[2]];
+        
+        const area = Math.abs((p1.x - p0.x) * (p2.y - p0.y) - (p2.x - p0.x) * (p1.y - p0.y));
+        const area1 = Math.abs((p0.x - px) * (p1.y - py) - (p1.x - px) * (p0.y - py));
+        const area2 = Math.abs((p1.x - px) * (p2.y - py) - (p2.x - px) * (p1.y - py));
+        const area3 = Math.abs((p2.x - px) * (p0.y - py) - (p0.x - px) * (p2.y - py));
+        
+        return Math.abs(area - (area1 + area2 + area3)) < 0.01;
+    }
+
+    function hasPointInside(triangle) {
+        for (let point of points) {
+            if (triangle.includes(point.id)) continue;
+            
+            if (isPointInsideTriangle(point.x, point.y, triangle)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function linePassesThroughPoint(lineStart, lineEnd, point) {
+        if (point.id === lineStart.id || point.id === lineEnd.id) {
+            return false;
+        }
+        
+        const x1 = lineStart.x;
+        const y1 = lineStart.y;
+        const x2 = lineEnd.x;
+        const y2 = lineEnd.y;
+        const px = point.x;
+        const py = point.y;
+        
+        const A = px - x1;
+        const B = py - y1;
+        const C = x2 - x1;
+        const D = y2 - y1;
+        
+        const dot = A * C + B * D;
+        const lenSq = C * C + D * D;
+        
+        let param = -1;
+        if (lenSq !== 0) {
+            param = dot / lenSq;
+        }
+        
+        let xx, yy;
+        
+        if (param < 0) {
+            xx = x1;
+            yy = y1;
+        } else if (param > 1) {
+            xx = x2;
+            yy = y2;
+        } else {
+            xx = x1 + param * C;
+            yy = y1 + param * D;
+        }
+        
+        const dx = px - xx;
+        const dy = py - yy;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        return distance < 8;
+    }
+
+    function checkGameOver() {
+        for (let i = 0; i < points.length; i++) {
+            for (let j = i + 1; j < points.length; j++) {
+                const p1 = points[i];
+                const p2 = points[j];
+                
+                const lineExists = lines.some(line =>
+                    (line.point1 === p1.id && line.point2 === p2.id) ||
+                    (line.point1 === p2.id && line.point2 === p1.id)
+                );
+                
+                if (lineExists) continue;
+                
+                const wouldIntersect = lineIntersectsExistingLines(
+                    { id: p1.id, x: p1.x, y: p1.y },
+                    { id: p2.id, x: p2.x, y: p2.y }
+                );
+                
+                if (wouldIntersect) continue;
+                
+                let passesThrough = false;
+                for (let k = 0; k < points.length; k++) {
+                    if (k === i || k === j) continue;
+                    if (linePassesThroughPoint(
+                        { id: p1.id, x: p1.x, y: p1.y },
+                        { id: p2.id, x: p2.x, y: p2.y },
+                        points[k]
+                    )) {
+                        passesThrough = true;
+                        break;
+                    }
+                }
+                
+                if (passesThrough) continue;
+                
+                let wouldCreateBadTriangle = false;
+                for (let k = 0; k < points.length; k++) {
+                    if (k === i || k === j) continue;
+                    
+                    const hasLine1 = lines.some(line =>
+                        (line.point1 === p1.id && line.point2 === k) ||
+                        (line.point1 === k && line.point2 === p1.id)
+                    );
+                    const hasLine2 = lines.some(line =>
+                        (line.point1 === p2.id && line.point2 === k) ||
+                        (line.point1 === k && line.point2 === p2.id)
+                    );
+                    
+                    if (hasLine1 && hasLine2) {
+                        const triangle = [p1.id, p2.id, k];
+                        if (hasPointInside(triangle)) {
+                            wouldCreateBadTriangle = true;
+                            break;
+                        }
+                    }
+                }
+                
+                if (wouldCreateBadTriangle) continue;
+                
+                return;
+            }
+        }
+        
+        endGame();
+    }
+
+    function endGame() {
+        let winner = '';
+        if (scores.player1 > scores.player2) {
+            winner = `${player1Name} 승리!`;
+        } else if (scores.player2 > scores.player1) {
+            winner = `${player2Name} 승리!`;
+        } else {
+            winner = '무승부!';
+        }
+        
+        showGameOverMessage(winner);
+    }
+
+    function showGameOverMessage(message) {
+        const currentTurnDiv = document.getElementById('currentTurn');
+        currentTurnDiv.innerHTML = `🎮 게임 종료!<br>${message}`;
+        currentTurnDiv.style.background = 'rgba(255, 215, 0, 0.3)';
+        currentTurnDiv.style.color = '#FFD700';
+        currentTurnDiv.style.fontSize = '20px';
+        currentTurnDiv.style.animation = 'pulse 1.5s infinite';
+        
+        document.getElementById('turn1').style.display = 'none';
+        document.getElementById('turn2').style.display = 'none';
+    }
+
+    function lineIntersectsExistingLines(newPoint1, newPoint2) {
+        for (let existingLine of lines) {
+            const existingP1 = points[existingLine.point1];
+            const existingP2 = points[existingLine.point2];
+            
+            if (newPoint1.id === existingLine.point1 || newPoint1.id === existingLine.point2 ||
+                newPoint2.id === existingLine.point1 || newPoint2.id === existingLine.point2) {
+                continue;
+            }
+            
+            if (doLinesIntersect(
+                newPoint1.x, newPoint1.y, newPoint2.x, newPoint2.y,
+                existingP1.x, existingP1.y, existingP2.x, existingP2.y
+            )) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function doLinesIntersect(x1, y1, x2, y2, x3, y3, x4, y4) {
+        const denom = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+        
+        if (Math.abs(denom) < 1e-10) {
+            return false;
+        }
+        
+        const t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / denom;
+        const u = -((x1 - x2) * (y1 - y3) - (y1 - y2) * (x1 - x3)) / denom;
+        
+        return t > 0 && t < 1 && u > 0 && u < 1;
+    }
+
+    function showWarningMessage(message) {
+        const existingWarning = document.getElementById('warningMessage');
+        if (existingWarning) {
+            existingWarning.remove();
+        }
+
+        const warning = document.createElement('div');
+        warning.id = 'warningMessage';
+        warning.textContent = message;
+        warning.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 100, 255, 0.9);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-family: 'Pretendard', sans-serif;
+            font-size: 18px;
+            font-weight: bold;
+            z-index: 1000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+        `;
+
+        document.body.appendChild(warning);
+
+        setTimeout(() => {
+            if (warning && warning.parentNode) {
+                warning.remove();
+            }
+        }, 2000);
+    }
+
+    function checkForAllTriangles(newPoint1, newPoint2) {
+        const completedTriangles = [];
+        
+        for (let point of points) {
+            if (point.id === newPoint1 || point.id === newPoint2) continue;
+            
+            const hasLine1 = lines.some(line => 
+                (line.point1 === newPoint1 && line.point2 === point.id) ||
+                (line.point1 === point.id && line.point2 === newPoint1)
+            );
+            
+            const hasLine2 = lines.some(line => 
+                (line.point1 === newPoint2 && line.point2 === point.id) ||
+                (line.point1 === point.id && line.point2 === newPoint2)
+            );
+
+            if (hasLine1 && hasLine2) {
+                const triangle = [newPoint1, newPoint2, point.id].sort((a, b) => a - b);
+                
+                const triangleExists = triangles.some(existingTriangle => {
+                    const existingPoints = existingTriangle.points.slice().sort((a, b) => a - b);
+                    return JSON.stringify(triangle) === JSON.stringify(existingPoints);
+                });
+                
+                if (!triangleExists) {
+                    completedTriangles.push(triangle);
+                }
+            }
+        }
+        
+        return completedTriangles;
+    }
+
+    function createTriangle(trianglePoints) {
+        const p1 = points[trianglePoints[0]];
+        const p2 = points[trianglePoints[1]];
+        const p3 = points[trianglePoints[2]];
+
+        const centerX = (p1.x + p2.x + p3.x) / 3;
+        const centerY = (p1.y + p2.y + p3.y) / 3;
+
+        const triangle = document.createElement('div');
+        triangle.className = 'triangle';
+        triangle.style.left = (centerX - 15) + 'px';
+        triangle.style.top = (centerY - 15) + 'px';
+        triangle.style.color = currentPlayer === 1 ? 'white' : 'pink';
+        triangle.textContent = currentPlayer === 1 ? 'V' : 'O';
+
+        gameArea.appendChild(triangle);
+        triangles.push({ points: trianglePoints, player: currentPlayer, element: triangle });
+    }
+
+    function updateScoreboard() {
+        document.getElementById('score1').textContent = scores.player1;
+        document.getElementById('score2').textContent = scores.player2;
+    }
+
+    function updateTurnDisplay() {
+        const currentPlayerName = currentPlayer === 1 ? player1Name : player2Name;
+        document.getElementById('currentTurn').textContent = `${currentPlayerName}의 차례`;
+        document.getElementById('currentTurn').style.color = currentPlayer === 1 ? 'white' : 'pink';
+        document.getElementById('currentTurn').style.background = 'rgba(255,255,255,0.1)';
+        
+        document.getElementById('turn1').style.display = currentPlayer === 1 ? 'inline' : 'none';
+        document.getElementById('turn2').style.display = currentPlayer === 2 ? 'inline' : 'none';
+    }
+
+    function restartGame() {
+        points.forEach(point => point.element.remove());
+        lines.forEach(line => line.element.remove());
+        triangles.forEach(triangle => triangle.element.remove());
+        
+        points = [];
+        lines = [];
+        triangles = [];
+        
+        currentPlayer = 1;
+        selectedPoint = null;
+        scores = { player1: 0, player2: 0 };
+        
+        updateScoreboard();
+        updateTurnDisplay();
+        
+        setTimeout(createPoints, 100);
+    }
+
+    window.addEventListener('load', function() {
+        loadPlayerNames();
+        setTimeout(createPoints, 100);
+        updateTurnDisplay();
+    });
+</script>
+
+</body>
+</html>
