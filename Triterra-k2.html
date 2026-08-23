@@ -97,14 +97,13 @@ body,
 border-radius: 12px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;z-index: 100;}
 
 .game-area {
-    flex: 1; /* 나머지 공간 모두 차지 */
-    position: absolute;
-    top: 70px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #145454 ;
-    
+    flex: 1;
+    position: relative;
+    background: #145454;
+    border: 2px solid rgba(255,255,255,0.25);
+    border-radius: 12px;
+    margin: 0 10px 10px;
+    overflow: hidden;
 }
 
 .point {
@@ -159,21 +158,17 @@ border-radius: 12px; border: none; cursor: pointer; display: flex; align-items: 
 }
 
 .scoreboard {
-flex: 0 0 100px;  /* 고정 높이 */
-position: absolute;
-bottom: 20px;
-left: 20px;
-right: 20px;
-background: #145454;
-padding: 15px;
-font-family: ‘Pretendard’, sans-serif;
-color: #fffde7;
-z-index: 50;
-pointer-events: auto;
-display: flex;
-justify-content: space-between;
-align-items: center;
-border-radius: 10px;
+    flex: 0 0 auto;
+    margin: 0 15px 10px;
+    background: #145454;
+    padding: 12px 15px;
+    font-family: 'Pretendard', sans-serif;
+    color: #fffde7;
+    z-index: 50;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px;
 }
 
 .player-score {
@@ -198,7 +193,7 @@ font-weight: bold;
 padding: 5px 10px;
 border-radius: 5px;
 background: rgba(255,255,255,0.1);
-font-family: ‘Pretendard’, sans-serif;
+font-family: 'Pretendard', sans-serif;
 color: #fff;
 }
 
@@ -230,18 +225,6 @@ color: #fff;
     justify-content: center;
     margin-bottom: 0;
 }
-
-.game-area {
-    top: 70px;
-}
-
-.scoreboard {
-    bottom: 10px;
-    left: 10px;
-    right: 10px;
-    padding: 10px;
-}
-
 }
 
 @media (max-height: 800px) {
@@ -266,7 +249,6 @@ border-radius: 0;
     <div class="header">
       <h1 class="game-title">트리테라 vs 트링키</h1>
     </div>
-<div class="game-area" id="gameArea"></div>
   <div class="scoreboard">
     <div class="player-score player1">
       <span id="player1Name">당신</span>: <span id="score1">0</span> <span class="turn-indicator" id="turn1">⭐</span>
@@ -276,6 +258,7 @@ border-radius: 0;
     </div>
     <div class="current-turn" id="currentTurn">당신의 차례</div>
   </div>
+<div class="game-area" id="gameArea"></div>
 </div>
 
 <script>
@@ -341,7 +324,7 @@ border-radius: 0;
        
         // 사용 가능한 영역
         const usableWidth = areaRect.width - 2 * margin;
-        const usableHeight = areaRect.height - 2 * margin - 120;
+        const usableHeight = areaRect.height - 2 * margin;
         
         // 실제 격자 크기
         const actualWidth = (cols - 1) * spacingX;
