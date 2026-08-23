@@ -75,6 +75,8 @@ body,
     max-height: 100dvh;
 }
 .game-container {
+    height: 100vh;
+    height: 100dvh;
     padding: env(safe-area-inset-top) env(safe-area-inset-right) 
              max(env(safe-area-inset-bottom), 12px) env(safe-area-inset-left);
 }
@@ -227,12 +229,7 @@ border-radius: 12px; border: none; cursor: pointer; display: flex; align-items: 
 }
   }
 @media (max-width: 768px) and (orientation: portrait) {
-    .game-container {
-        height: 100dvh;
-        padding: env(safe-area-inset-top) env(safe-area-inset-right) 
-                 env(safe-area-inset-bottom) env(safe-area-inset-left);
-    }
-
+ 
     .game-title {
         font-size: 1.8rem;
         width: 100%;
