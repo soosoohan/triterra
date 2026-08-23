@@ -95,12 +95,12 @@ body,
 
 .game-area {
     flex: 1;
-    position: absolute;
-    top: 50px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #145454 ;
+    position: relative;
+    background: #145454;
+    border: 2px solid rgba(255,255,255,0.25);
+    border-radius: 12px;
+    margin: 0 10px 10px;
+    overflow: hidden;
 }
 
 .point {
@@ -168,17 +168,13 @@ body,
 }
 
 .scoreboard {
-    flex: 0 0 100px;
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    right: 20px;
+    flex: 0 0 auto;
+    margin: 0 15px 10px;
     background: #145454;
-    padding: 15px;
+    padding: 12px 15px;
     font-family: 'Pretendard', sans-serif;
     color: #fffde7;
     z-index: 50;
-    pointer-events: auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -247,17 +243,6 @@ body,
         font-size: 14px;
     }
 
-    .game-area {
-        top: 80px;
-    }
-
-    .scoreboard {
-        bottom: 10px;
-        left: 10px;
-        right: 10px;
-        padding: 10px;
-    }
-
     .point {
         width: 40px;
         height: 40px;
@@ -287,7 +272,6 @@ body,
       <h1 class="game-title">Triterra friend</h1>
     </div>
 
-    <div class="game-area" id="gameArea"></div>
     
     <div class="scoreboard">
       <div class="player-score player1">
@@ -298,7 +282,8 @@ body,
       </div>
       <div class="current-turn" id="currentTurn">P1's turn</div>
     </div>
-  </div>
+  <div class="game-area" id="gameArea"></div>
+    </div>
 
 <script>
     
