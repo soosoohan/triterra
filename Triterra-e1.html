@@ -300,7 +300,7 @@ body,
     </div>
   <div class="game-area" id="gameArea"></div>
    <div class="buttons bottom-buttons">
-        <button class="game-button" onclick="newGame()">Restart</button>
+        <button class="game-button" onclick="restartGame()">Restart</button>
     </div>
 
     </div>
@@ -807,29 +807,7 @@ body,
         document.getElementById('turn1').style.display = currentPlayer === 1 ? 'inline' : 'none';
         document.getElementById('turn2').style.display = currentPlayer === 2 ? 'inline' : 'none';
     }
-    function newGame() {
-    // 선택된 점 해제
-    if (selectedPoint !== null) {
-        points[selectedPoint.id].element.classList.remove('selected');
-        selectedPoint = null;
-    }
-        points.forEach(point => point.element.remove());
-        lines.forEach(line => line.element.remove());
-        triangles.forEach(triangle => triangle.element.remove());
-        
-        points = [];
-        lines = [];
-        triangles = [];
-        currentPlayer = 1;
-        selectedPoint = null;
-        scores = { player1: 0, player2: 0 };
-        isAiThinking = false;
-        
-        updateScoreboard();
-        updateTurnDisplay();
-        setTimeout(createPoints, 100);
-    }
-
+ 
     function restartGame() {
         points.forEach(point => point.element.remove());
         lines.forEach(line => line.element.remove());
