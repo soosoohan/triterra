@@ -376,96 +376,111 @@ body,
             document.getElementById('player2Name').textContent = player2Name;
         }
     }
-let gameStarted = false;
-let currentGrid = null;
 
-function calculateGrid() {
+    function getSemodangGrid() {
     const areaRect = gameArea.getBoundingClientRect();
-
-    const MARGIN = 40;
-    const SPACING = 120;
-    const MIN_COLS = 3, MAX_COLS = 6;
-    const MIN_ROWS = 3, MAX_ROWS = 6;
-
-    const usableWidth = areaRect.width - 2 * MARGIN;
-    const usableHeight = areaRect.height - 2 * MARGIN;
-
-    let cols = Math.min(MAX_COLS, Math.floor(usableWidth / SPACING) + 1);
-    let rows = Math.min(MAX_ROWS, Math.floor(usableHeight / SPACING) + 1);
-    cols = Math.max(MIN_COLS, cols);
-    rows = Math.max(MIN_ROWS, rows);
-
-    if (cols === 3 && rows === 3) rows = 4;
-
-    const actualWidth = (cols - 1) * SPACING;
-    const actualHeight = (rows - 1) * SPACING;
-
-    const startX = MARGIN + (usableWidth - actualWidth) / 2;
-    const startY = MARGIN + (usableHeight - actualHeight) / 2;
-
-    return { rows, cols, spacing: SPACING, startX, startY };
+    
+    // 화면 크기에 따라 margin 조정
+    let margin;
+    if (areaRect.width < 600) {
+        margin = 60;   // 모바일
+    } else if (areaRect.width < 1000) {
+        margin = 100;  // 태블릿
+    } else {
+        margin = 150;  // 데스크톱
+    }
+    
+    const usableWidth = areaRect.width - 2 * margin;
+    const usableHeight = areaRect.height - 2 * margin - 120;
+    
+    const minSpacing = 120;
+    
+    const maxColsByWidth = Math.min(6, Math.floor(usableWidth / minSpacing) + 1);
+    const maxRowsByHeight = Math.min(6, Math.floor(usableHeight / minSpacing) + 1);
+    
+    let cols = Math.max(3, maxColsByWidth);
+    let rows = Math.max(3, Math.min(4, maxRowsByHeight));
+    
+    // 3×3 회피
+    if (cols === 3 && rows === 3) {
+        rows = 4;
+    }
+    
+    const spacingX = Math.max(minSpacing, usableWidth / (cols - 1));
+    const spacingY = Math.max(minSpacing, usableHeight / (rows - 1));
+    
+    return { rows, cols, spacingX, spacingY };
 }
 
-function createPoints(grid) {
-    const { rows, cols, spacing, startX, startY } = grid;
-
-    let gridPoints = [];
-    for (let row = 0; row < rows; row++) {
-        for (let col = 0; col < cols; col++) {
-            const x = startX + col * spacing;
-            const y = startY + row * spacing;
-            gridPoints.push({ x, y, row, col });
+    // 정확한 격자로 점 생성
+    function createPoints() {
+        
+        const areaRect = gameArea.getBoundingClientRect();
+        const margin = 80;
+        
+        const gridInfo = getSemodangGrid();
+        const { rows, cols, spacingX, spacingY } = gridInfo;
+        const totalPoints = rows * cols;
+        
+       
+        // 사용 가능한 영역
+        const usableWidth = areaRect.width - 2 * margin;
+        const usableHeight = areaRect.height - 2 * margin;
+        
+        // 실제 격자 크기
+        const actualWidth = (cols - 1) * spacingX;
+        const actualHeight = (rows - 1) * spacingY;
+        
+        // 중앙 정렬
+        const startX = margin + (usableWidth - actualWidth) / 2;
+        const startY = margin + (usableHeight - actualHeight) / 2;
+        
+        // 모든 격자점 생성 (흔들림 없음!)
+        let gridPoints = [];
+        for (let row = 0; row < rows; row++) {
+            for (let col = 0; col < cols; col++) {
+                const x = startX + col * spacingX;
+                const y = startY + row * spacingY;
+                
+                gridPoints.push({ x, y, row, col });
+            }
         }
+        
+        // 점 생성 및 배치 (모두 사용, 삭제 없음)
+        gridPoints.forEach((pointData, i) => {
+            const point = document.createElement('div');
+            point.className = 'point';
+            point.style.left = (pointData.x - 25) + 'px';
+            point.style.top = (pointData.y - 25) + 'px';
+            
+            point.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                selectPoint(i, pointData.x, pointData.y);
+            });
+            
+            point.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                selectPoint(i, pointData.x, pointData.y);
+            });
+            
+            point.addEventListener('touchend', function(e) {
+                e.preventDefault();
+            });
+            
+            gameArea.appendChild(point);
+            points.push({ 
+                x: pointData.x,
+                y: pointData.y,
+                element: point, 
+                id: i,
+                row: pointData.row,
+                col: pointData.col
+            });
+        });
     }
 
-    gridPoints.forEach((pointData, i) => {
-        const point = document.createElement('div');
-        point.className = 'point';
-        point.style.left = (pointData.x - 25) + 'px';
-        point.style.top = (pointData.y - 25) + 'px';
-
-        point.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            selectPoint(i, pointData.x, pointData.y);
-        });
-
-        point.addEventListener('touchstart', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            selectPoint(i, pointData.x, pointData.y);
-        });
-
-        point.addEventListener('touchend', function(e) {
-            e.preventDefault();
-        });
-
-        gameArea.appendChild(point);
-        points.push({
-            x: pointData.x,
-            y: pointData.y,
-            element: point,
-            id: i,
-            row: pointData.row,
-            col: pointData.col
-        });
-    });
-}
-
-function initGame() {
-    const grid = calculateGrid();
-    gameStarted = true;
-    currentGrid = grid;
-    createPoints(grid);
-}
-
-let resizeTimeout;
-window.addEventListener('resize', function() {
-    if (gameStarted) return; // 게임 시작 후엔 무시
-
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(initGame, 200);
-});
     function selectPoint(pointId, x, y) {
         if (selectedPoint === null) {
             selectedPoint = { id: pointId, x, y };
@@ -839,32 +854,30 @@ window.addEventListener('resize', function() {
         document.getElementById('turn2').style.display = currentPlayer === 2 ? 'inline' : 'none';
     }
  
-   function restartGame() {
-    points.forEach(point => point.element.remove());
-    lines.forEach(line => line.element.remove());
-    triangles.forEach(triangle => triangle.element.remove());
+    function restartGame() {
+        points.forEach(point => point.element.remove());
+        lines.forEach(line => line.element.remove());
+        triangles.forEach(triangle => triangle.element.remove());
+        
+        points = [];
+        lines = [];
+        triangles = [];
+        
+        currentPlayer = 1;
+        selectedPoint = null;
+        scores = { player1: 0, player2: 0 };
+        
+        updateScoreboard();
+        updateTurnDisplay();
+        
+        setTimeout(createPoints, 100);
+    }
 
-    points = [];
-    lines = [];
-    triangles = [];
-
-    currentPlayer = 1;
-    selectedPoint = null;
-    scores = { player1: 0, player2: 0 };
-    gameStarted = false; // ← 재시작 시 리셋
-
-    updateScoreboard();
-    updateTurnDisplay();
-
-    setTimeout(initGame, 100);
-}
-
-window.addEventListener('load', function() {
-    loadPlayerNames();
-    setTimeout(initGame, 100);
-    updateTurnDisplay();
-});
-
+    window.addEventListener('load', function() {
+        loadPlayerNames();
+        setTimeout(createPoints, 100);
+        updateTurnDisplay();
+    });
 </script>
 
 </body>
