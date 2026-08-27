@@ -392,21 +392,13 @@ let currentGrid = null;
 function calculateGrid() {
     const areaRect = gameArea.getBoundingClientRect();
 
-    const MARGIN = 60;
+    const MARGIN = 40;
     const SPACING = 120;
     const MIN_COLS = 3, MAX_COLS = 6;
     const MIN_ROWS = 3, MAX_ROWS = 6;
-    const RESERVED_BOTTOM = 0; // gameArea가 이미 flex:1로 분리돼 있으므로 0
 
     const usableWidth = areaRect.width - 2 * MARGIN;
-    const usableHeight = areaRect.height - 2 * MARGIN - RESERVED_BOTTOM;
-
-    const minNeededWidth = (MIN_COLS - 1) * SPACING;
-    const minNeededHeight = (MIN_ROWS - 1) * SPACING;
-
-    if (usableWidth < minNeededWidth || usableHeight < minNeededHeight) {
-        return null;
-    }
+    const usableHeight = areaRect.height - 2 * MARGIN;
 
     let cols = Math.min(MAX_COLS, Math.floor(usableWidth / SPACING) + 1);
     let rows = Math.min(MAX_ROWS, Math.floor(usableHeight / SPACING) + 1);
@@ -422,18 +414,6 @@ function calculateGrid() {
     const startY = MARGIN + (usableHeight - actualHeight) / 2;
 
     return { rows, cols, spacing: SPACING, startX, startY };
-}
-
-function showTooSmallWarning() {
-    const warning = document.getElementById('warning');
-    warning.textContent = 'The screen is too small. Please rotate your device or play on a larger screen.';
-    warning.style.display = 'block';
-    gameArea.style.display = 'none';
-}
-
-function hideWarning() {
-    document.getElementById('warning').style.display = 'none';
-    gameArea.style.display = '';
 }
 
 function createPoints(grid) {
@@ -484,13 +464,6 @@ function createPoints(grid) {
 
 function initGame() {
     const grid = calculateGrid();
-
-    if (!grid) {
-        showTooSmallWarning();
-        return;
-    }
-
-    hideWarning();
     gameStarted = true;
     currentGrid = grid;
     createPoints(grid);
