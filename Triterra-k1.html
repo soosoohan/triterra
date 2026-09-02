@@ -335,12 +335,12 @@ border-radius: 12px; border: none; cursor: pointer; display: flex; align-items: 
     
     <div class="scoreboard">
       <div class="player-score player1">
-        <span id="player1Name">P1</span>: <span id="score1">0</span> <span class="turn-indicator" id="turn1">⭐</span>
+        <span id="player1Name">하양</span>: <span id="score1">0</span> <span class="turn-indicator" id="turn1">⭐</span>
       </div>
       <div class="player-score player2">
-        <span id="player2Name">P2</span>: <span id="score2">0</span> <span class="turn-indicator" id="turn2" style="display:none;">⭐</span>
+        <span id="player2Name">분홍</span>: <span id="score2">0</span> <span class="turn-indicator" id="turn2" style="display:none;">⭐</span>
       </div>
-      <div class="current-turn" id="currentTurn">P1의 차례</div>
+      <div class="current-turn" id="currentTurn">하양의 차례</div>
     </div>
     <div class="game-area" id="gameArea"></div>
     <div class="buttons bottom-buttons">
@@ -358,8 +358,8 @@ border-radius: 12px; border: none; cursor: pointer; display: flex; align-items: 
     let selectedPoint = null;
     let scores = { player1: 0, player2: 0 };
     
-    let player1Name = 'P1';
-    let player2Name = 'P2';
+    let player1Name = '하양';
+    let player2Name = '분홍';
     
     function loadPlayerNames() {
         const savedPlayer1 = localStorage.getItem('player1Name');
