@@ -101,9 +101,8 @@ html, body {
     overflow: hidden;
     height: 100%;
     position: fixed;   /* 안드로이드에서 바운스 스크롤/주소창 리사이즈 영향 최소화 */
-    width: 100%;
-    max-width: 900px;   
-}
+    width: 100vw;
+ }
 
 body,
 .game-container {
@@ -112,7 +111,6 @@ body,
     background: #145454 ;
     font-family: 'Pretendard', sans-serif;
     overflow: hidden;
-    width: 100vw;
     position: relative;
     height: 100vh;       /* 구형 브라우저 폴백 */
     height: 100dvh;      /* 지원되면 이 값으로 덮어씀 */
@@ -122,6 +120,8 @@ body,
     max-height: 100dvh;
 }
 .game-container {
+    width: 100%;
+    max-width: 900px;   
     height: 100vh;
     height: 100dvh;
     padding: env(safe-area-inset-top) env(safe-area-inset-right) 
@@ -155,7 +155,7 @@ border-radius: 12px; border: none; cursor: pointer; display: flex; align-items: 
     background: #145454;
     border: 2px solid rgba(255,255,255,0.25);
     border-radius: 12px;
-    margin: 0 10px 10px;
+    margin: 10px 30px;
     overflow: hidden;
 }
 
