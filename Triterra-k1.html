@@ -392,11 +392,19 @@ border-radius: 12px; border: none; cursor: pointer; display: flex; align-items: 
     
     const minSpacing = 120;
     
-    const maxColsByWidth = Math.min(6, Math.floor(usableWidth / minSpacing) + 1);
-    const maxRowsByHeight = Math.min(6, Math.floor(usableHeight / minSpacing) + 1);
-    
-    let cols = Math.max(3, maxColsByWidth);
-    let rows = Math.max(3, Math.min(4, maxRowsByHeight));
+    const maxColsByWidth = Math.floor(usableWidth / minSpacing) + 1;
+    const maxRowsByHeight = Math.floor(usableHeight / minSpacing) + 1;
+
+// 가로세로 중 더 작은 쪽에 맞춰서 정사각형 격자로 통일
+const maxSize = Math.min(maxColsByWidth, maxRowsByHeight, 6);
+
+let cols = maxSize;
+let rows = maxSize;
+
+// 정사각형을 만들 수 없을 만큼 좁으면(3 미만) 최소 크기 미달로 처리
+if (maxSize < 3) {
+    return { rows: 0, cols: 0, spacingX: 0, spacingY: 0, tooSmall: true };
+}
       
     const spacingX = Math.max(minSpacing, usableWidth / (cols - 1));
     const spacingY = Math.max(minSpacing, usableHeight / (rows - 1));
