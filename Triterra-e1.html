@@ -432,8 +432,6 @@ if (tooSmall) {
     return;
 }
 
-     
-
     // margin을 getSemodangGrid()와 통일
     let margin;
     if (areaRect.width < 600) margin = 60;
@@ -503,7 +501,7 @@ if (tooSmall) {
 function showMinSizeMessage() {
     const msg = document.createElement('div');
     msg.id = 'minSizeMessage';
-    msg.textContent = '게임이 가능한 최소 크기에 못 미칩니다.';
+    msg.textContent = 'Screen is too small to play this game.';
     msg.style.cssText = `
         position: absolute;
         top: 50%;
