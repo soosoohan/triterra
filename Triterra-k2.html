@@ -391,7 +391,12 @@ if (maxSize < 3) {
 
     const areaRect = gameArea.getBoundingClientRect();
     const gridInfo = getSemodangGrid();
-    const { rows, cols, spacingX, spacingY } = gridInfo;
+    const { rows, cols, spacingX, spacingY, tooSmall } = gridInfo;
+
+    if (tooSmall) {
+    showMinSizeMessage();
+    return;
+    }
 
     // margin을 getSemodangGrid()와 통일
     let margin;
