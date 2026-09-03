@@ -388,10 +388,17 @@ border-radius: 12px; border: none; cursor: pointer; display: flex; align-items: 
     }
     
     const usableWidth = areaRect.width - 2 * margin;
-    const usableHeight = areaRect.height - 2 * margin - 120;
+    const usableHeight = areaRect.height - 2 * margin;
     
-    const minSpacing = 120;
-    
+    let minSpacing;
+if (areaRect.width < 600) {
+    minSpacing = 90;   // 모바일
+} else if (areaRect.width < 1000) {
+    minSpacing = 110;  // 태블릿
+} else {
+    minSpacing = 120;  // 데스크톱
+}
+
     const maxColsByWidth = Math.floor(usableWidth / minSpacing) + 1;
     const maxRowsByHeight = Math.floor(usableHeight / minSpacing) + 1;
 
