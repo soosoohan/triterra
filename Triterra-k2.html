@@ -350,12 +350,12 @@ function getSemodangGrid() {
     
     let margin;
     if (areaRect.width < 600) {
-        margin = 60;
-    } else if (areaRect.width < 1000) {
-        margin = 100;
-    } else {
-        margin = 150;
-    }
+    margin = 25;   // 모바일
+} else if (areaRect.width < 1000) {
+    margin = 40;   // 태블릿
+} else {
+    margin = 60;   // 데스크톱
+}
     
     const usableWidth = areaRect.width - 2 * margin;
     const usableHeight = areaRect.height - 2 * margin;
@@ -384,8 +384,7 @@ function getSemodangGrid() {
     const spacingXRaw = usableWidth / (cols - 1);
     const spacingYRaw = usableHeight / (rows - 1);
     const spacing = Math.min(spacingXRaw, spacingYRaw);
-    
-    return { rows, cols, spacingX: spacing, spacingY: spacing, tooSmall: false };
+    return { rows, cols, spacingX: spacing, spacingY: spacing, margin, tooSmall: false };
 }
 
     function createPoints() {
@@ -394,7 +393,7 @@ function getSemodangGrid() {
 
     const areaRect = gameArea.getBoundingClientRect();
     const gridInfo = getSemodangGrid();
-    const { rows, cols, spacingX, spacingY, tooSmall } = gridInfo;
+    const { rows, cols, spacingX, spacingY, margin, tooSmall } = gridInfo;
 
     if (tooSmall) {
     showMinSizeMessage();
