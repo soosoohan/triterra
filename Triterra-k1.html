@@ -439,15 +439,6 @@ if (tooSmall) {
     const usableWidth = areaRect.width - 2 * margin;
     const usableHeight = areaRect.height - 2 * margin;
 
-    const actualWidth = (cols - 1) * spacingX;
-    const actualHeight = (rows - 1) * spacingY;
-
-    // 실제 필요한 공간이 사용 가능한 공간보다 크면 → 최소 크기 미달
-    if (actualWidth > usableWidth || actualHeight > usableHeight) {
-        showMinSizeMessage(); // 트링클에서 쓴 것과 같은 함수
-        return;
-    }
-
         // 중앙 정렬
         const startX = margin + (usableWidth - actualWidth) / 2;
         const startY = margin + (usableHeight - actualHeight) / 2;
