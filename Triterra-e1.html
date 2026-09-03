@@ -416,26 +416,33 @@ body,
 
     // 정확한 격자로 점 생성
     function createPoints() {
-        
-        const areaRect = gameArea.getBoundingClientRect();
-        const margin = 80;
-        
-        const gridInfo = getSemodangGrid();
-        const { rows, cols, spacingX, spacingY } = gridInfo;
-        const totalPoints = rows * cols;
-        
-       
-        // 사용 가능한 영역
-        const usableWidth = areaRect.width - 2 * margin;
-        const usableHeight = areaRect.height - 2 * margin;
-        
-        // 실제 격자 크기
-        const actualWidth = (cols - 1) * spacingX;
-        const actualHeight = (rows - 1) * spacingY;
-        
-        // 중앙 정렬
-        const startX = margin + (usableWidth - actualWidth) / 2;
-        const startY = margin + (usableHeight - actualHeight) / 2;
+    const oldMsg = document.getElementById('minSizeMessage');
+    if (oldMsg) oldMsg.remove();
+
+    const areaRect = gameArea.getBoundingClientRect();
+    const gridInfo = getSemodangGrid();
+    const { rows, cols, spacingX, spacingY } = gridInfo;
+
+    // margin을 getSemodangGrid()와 통일
+    let margin;
+    if (areaRect.width < 600) margin = 60;
+    else if (areaRect.width < 1000) margin = 100;
+    else margin = 150;
+
+    const usableWidth = areaRect.width - 2 * margin;
+    const usableHeight = areaRect.height - 2 * margin - 120;
+
+    const actualWidth = (cols - 1) * spacingX;
+    const actualHeight = (rows - 1) * spacingY;
+
+    // 실제 필요한 공간이 사용 가능한 공간보다 크면 → 최소 크기 미달
+    if (actualWidth > usableWidth || actualHeight > usableHeight) {
+        showMinSizeMessage(); // 트링클에서 쓴 것과 같은 함수
+        return;
+    }
+
+    const startX = margin + (usableWidth - actualWidth) / 2;
+    const startY = margin + (usableHeight - actualHeight) / 2;
         
         // 모든 격자점 생성 (흔들림 없음!)
         let gridPoints = [];
