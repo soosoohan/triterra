@@ -736,7 +736,7 @@ function getSemodangGrid() {
         isAiThinking = true;
         updateTurnDisplay();
 
-        const thinkingTime = 800 + Math.random() * 700;
+        const thinkingTime = 100 + Math.random() * 100;
 
         setTimeout(() => {
             const bestMove = findBestAiMoveAdvanced();
