@@ -755,12 +755,12 @@ function showMinSizeMessage() {
     document.getElementById('turn2').style.display = 'none';
 
     showEndOverlay({
-        lang: 'ko',
-        result,
-        title,
-        scoreText: `${player1Name} ${scores.player1} : ${scores.player2} ${player2Name}`
-        // onRestart 생략 → 기본값 location.reload()
-    });
+    lang: 'ko',
+    result,
+    title,
+    scoreText: `${player1Name} ${scores.player1} : ${scores.player2} ${player2Name}`,
+    onRestart: restartGame
+});
 }
 
     function lineIntersectsExistingLines(newPoint1, newPoint2) {
