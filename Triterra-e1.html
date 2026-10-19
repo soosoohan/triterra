@@ -739,13 +739,13 @@ function showMinSizeMessage() {
    function endGame() {
     let title, result;
     if (scores.player1 > scores.player2) {
-        title = `${player1Name} 승리!`;
+        title = `${player1Name} wins!`;
         result = 'win';
     } else if (scores.player2 > scores.player1) {
-        title = `${player2Name} 승리!`;
+        title = `${player2Name} wins!`;
         result = 'win';
     } else {
-        title = '🤝 무승부!';
+        title = '🤝 Draw!';
         result = 'draw';
     }
 
@@ -753,7 +753,7 @@ function showMinSizeMessage() {
     document.getElementById('turn2').style.display = 'none';
 
     showEndOverlay({
-    lang: 'ko',
+    lang: 'en',
     result,
     title,
     scoreText: `${player1Name} ${scores.player1} : ${scores.player2} ${player2Name}`,
