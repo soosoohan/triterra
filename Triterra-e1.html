@@ -909,10 +909,10 @@ function showMinSizeMessage() {
         scores = { player1: 0, player2: 0 };
         
         updateScoreboard();
-        updateTurnDisplay();
         document.getElementById('turn1').style.display = '';
         document.getElementById('turn2').style.display = '';
-
+        updateTurnDisplay();
+   
         setTimeout(createPoints, 100);
     }
 
