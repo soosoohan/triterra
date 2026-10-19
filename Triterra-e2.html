@@ -1299,23 +1299,23 @@ function showGameEndMessage() {
     let result, title;
     if (scores.player1 > scores.player2) {
         result = 'win';
-        title = '당신이 이겼어요! 🎉';
+        title = 'You Win! 🎉';
     } else if (scores.player2 > scores.player1) {
         result = 'lose';
-        title = '트링키가 이겼어요! 😢';
+        title = 'Trinky Wins! 😢';
     } else {
         result = 'draw';
-        title = '🤝 무승부!';
+        title = '🤝 Draw!';
     }
 
     document.getElementById('turn1').style.display = 'none';
     document.getElementById('turn2').style.display = 'none';
 
     showEndOverlay({
-        lang: 'ko',
+        lang: 'en',
         result,
         title,
-        scoreText: `나 ${scores.player1} : ${scores.player2} 트링키`,
+        scoreText: `You ${scores.player1} : ${scores.player2} Trinky`,
         onRestart: newGame
     });
 }
