@@ -1291,28 +1291,29 @@ function getSemodangGrid() {
 
     
 function showGameEndMessage() {
-    const currentTurnElement = document.getElementById('currentTurn');
-    
+    let result, title;
     if (scores.player1 > scores.player2) {
-        currentTurnElement.textContent = `당신이 이겼습니다! 🎉`;
-        currentTurnElement.style.color = 'white';
-        currentTurnElement.style.background = 'rgba(255, 255, 255, 0.2)';
+        result = 'win';
+        title = '당신이 이겼어요! 🎉';
     } else if (scores.player2 > scores.player1) {
-        currentTurnElement.textContent = `트링키가 이겼습니다! 🎉`;
-        currentTurnElement.style.color = 'pink';
-        currentTurnElement.style.background = 'rgba(255, 192, 203, 0.2)';
+        result = 'lose';
+        title = '트링키가 이겼어요! 😢';
     } else {
-        currentTurnElement.textContent = '무승부입니다! 🤝';
-        currentTurnElement.style.color = '#fffde7';
-        currentTurnElement.style.background = 'rgba(255, 255, 255, 0.15)';
+        result = 'draw';
+        title = '🤝 무승부!';
     }
-    
-    // 차례 표시 별 숨기기
+
     document.getElementById('turn1').style.display = 'none';
     document.getElementById('turn2').style.display = 'none';
+
+    showEndOverlay({
+        lang: 'ko',
+        result,
+        title,
+        scoreText: `나 ${scores.player1} : ${scores.player2} 트링키`,
+        onRestart: newGame
+    });
 }
-
-
 
 // 새 게임 시작 - 점 배치도 새로 생성
 function newGame() {
@@ -1334,6 +1335,9 @@ function newGame() {
         isAiThinking = false;
         
         updateScoreboard();
+        document.getElementById('turn1').style.display = '';
+        document.getElementById('turn2').style.display = '';
+
         updateTurnDisplay();
         setTimeout(createPoints, 100);
     }
