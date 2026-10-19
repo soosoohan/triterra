@@ -736,30 +736,30 @@ function showMinSizeMessage() {
         endGame();
     }
 
-    function endGame() {
-        let winner = '';
-        if (scores.player1 > scores.player2) {
-            winner = `${player1Name}win!`;
-        } else if (scores.player2 > scores.player1) {
-            winner = `${player2Name} win!`;
-        } else {
-            winner = 'tie!';
-        }
-        
-        showGameOverMessage(winner);
+   function endGame() {
+    let title, result;
+    if (scores.player1 > scores.player2) {
+        title = `${player1Name} 승리!`;
+        result = 'win';
+    } else if (scores.player2 > scores.player1) {
+        title = `${player2Name} 승리!`;
+        result = 'win';
+    } else {
+        title = '🤝 무승부!';
+        result = 'draw';
     }
 
-    function showGameOverMessage(message) {
-        const currentTurnDiv = document.getElementById('currentTurn');
-        currentTurnDiv.innerHTML = `🎮 Game over!<br>${message}`;
-        currentTurnDiv.style.background = 'rgba(255, 215, 0, 0.3)';
-        currentTurnDiv.style.color = '#FFD700';
-        currentTurnDiv.style.fontSize = '20px';
-        currentTurnDiv.style.animation = 'pulse 1.5s infinite';
-        
-        document.getElementById('turn1').style.display = 'none';
-        document.getElementById('turn2').style.display = 'none';
-    }
+    document.getElementById('turn1').style.display = 'none';
+    document.getElementById('turn2').style.display = 'none';
+
+    showEndOverlay({
+    lang: 'ko',
+    result,
+    title,
+    scoreText: `${player1Name} ${scores.player1} : ${scores.player2} ${player2Name}`,
+    onRestart: restartGame
+});
+}
 
     function lineIntersectsExistingLines(newPoint1, newPoint2) {
         for (let existingLine of lines) {
