@@ -219,15 +219,15 @@ header {
 
 .buttons-container {
     display: flex;
-    flex-direction: column;
-    gap: 15px;
     width: 100%;
     max-width: 800px;
+  flex-wrap: nowrap;
+  gap: 6px;
 }
 
 .main-game-button {
     background: rgba(255,255,255,0.9);
-    color: #80602f;
+    color: #2e8b8b;
     padding: 15px 20px;
     border: none;
     border-radius: 10px;
@@ -237,6 +237,8 @@ header {
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+width: 100%;
+  white-space: nowrap;
     
 }
 
@@ -308,10 +310,10 @@ header { display: flow-root; height: auto !important; }
                 <div class="buttons-container">
                     </button>
                     <button class="main-game-button" onclick="location.href='Triterra-k2.html'">
-                        🤖 트리테라 vs 트링키(AI)
+                        🤖 vs 트링키(AI)
                     </button>
                     <button class="main-game-button" onclick="location.href='Triterra-k1.html'">
-                        👫 트리테라 2인 대결  
+                        👫 2인 대결  
                     </button>
                 </div>
             </div>
@@ -333,10 +335,10 @@ header { display: flow-root; height: auto !important; }
             <div class="game-menu">
                 <div class="buttons-container">
                     <button class="main-game-button" onclick="location.href='Triterra-e2.html'">
-                        🤖 Triterra vs Trinky(AI)
+                        🤖 vs Trinky(AI)
                     </button>
                     <button class="main-game-button" onclick="location.href='Triterra-e1.html'">
-                        👫 Triterra 2-player 
+                        👫 2-player 
                     </button>
                 </div>
             </div>
